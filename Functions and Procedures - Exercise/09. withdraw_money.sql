@@ -3,7 +3,7 @@ CREATE OR REPLACE PROCEDURE sp_withdraw_money(
 	money_amount NUMERIC(10,4)
 )
 AS $$
-DECLARE current_balance NUMERIC(10,4);
+DECLARE current_balance NUMERIC;
 
 BEGIN 
 
@@ -11,7 +11,7 @@ BEGIN
     FROM accounts
     WHERE id = account_id;
 
-IF current_balance > money_amount THEN
+IF (current_balance - money_amount) >= 0 THEN
 UPDATE accounts
 SET balance = balance - money_amount
 WHERE id=account_id;
